@@ -38,3 +38,26 @@ function renderDate() {
     "" + dayArray[day] + ", " + daym + "  " + monthArray[month];
 }
 renderDate();
+
+function renderTime() {
+  let currentTime = new Date();
+  let h = currentTime.getHours();
+  let m = currentTime.getMinutes();
+  if (h === 24) {
+    h = 0;
+  } else if (h > 12) {
+    h = h - 0;
+  }
+  if (h < 10) {
+    h = "0" + h;
+  }
+  if (m < 10) {
+    m = "0" + m;
+  }
+  let myTime = document.getElementById("time");
+  myTime.textContent = "" + h + ":" + m;
+  myTime.innerHTML = "" + h + ":" + m;
+
+  setTimeout("renderTime()", 1000);
+}
+renderTime();
