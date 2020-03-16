@@ -21,7 +21,7 @@ Here are the steps to install the repository
 
 ![Image description](./assets/SS1.png)
 
-### Thank You for browsing The Quiz
+### Thank You for browsing my Day Scheduler
 
 ## Credit
 
