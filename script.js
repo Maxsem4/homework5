@@ -90,9 +90,9 @@ $(document).ready(function() {
       //
       $plannerRow.css("background-color", "#d3d3d3");
     } else if (hour > hourDisplay) {
-      $plannerRow.css("background-color", "#ff6961");
-    } else {
       $plannerRow.css("background-color", "#77dd77");
+    } else {
+      $plannerRow.css("background-color", "#ff6961");
     }
   }
 
