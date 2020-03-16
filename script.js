@@ -1,63 +1,119 @@
-const saveBtn = document.getElementById("saveBtn");
+$(document).ready(function() {
+  // get time from moments
+  const now = moment().format("MMMM Do YYYY");
 
-function renderDate() {
-  //time variables
-  let myDate = new Date();
+  let hourDisplay = moment().format("H");
 
-  let daym = myDate.getDate();
-  let month = myDate.getMonth();
-  let day = myDate.getDay();
+  // Display Current Date
 
-  let dayArray = new Array(
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday"
-  );
-  let monthArray = new Array(
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-  );
-  let myCurrentDate = document.getElementById("currentDay");
-  myCurrentDate.textContent =
-    "" + dayArray[day] + ", " + daym + " " + monthArray[month];
-  myCurrentDate.innerText =
-    "" + dayArray[day] + ", " + daym + "  " + monthArray[month];
-}
-renderDate();
+  let $date = $("#currentDay");
+  $date.text(now);
 
-function renderTime() {
-  let currentTime = new Date();
-  let h = currentTime.getHours();
-  let m = currentTime.getMinutes();
-  if (h === 24) {
-    h = 0;
-  } else if (h > 12) {
-    h = h - 0;
+  // Store plans for the day
+
+  let storedPlans = JSON.parse(localStorage.getItem("storedPlans"));
+
+  if (storedPlans !== null) {
+    textArray = storedPlans;
   }
-  if (h < 10) {
-    h = "0" + h;
-  }
-  if (m < 10) {
-    m = "0" + m;
-  }
-  let myTime = document.getElementById("time");
-  myTime.textContent = "" + h + ":" + m;
-  myTime.innerHTML = "" + h + ":" + m;
 
-  setTimeout("renderTime()", 1000);
-}
-renderTime();
+  let $plannerDiv = $("#plannerContainer");
+  $plannerDiv.empty();
+
+  // Time divs and hour display
+
+  for (let hour = 9; hour <= 17; hour++) {
+    let index = hour - 9;
+
+    let $mainDiv = $("<div>");
+    $mainDiv.addClass("row");
+    $mainDiv.addClass("plannerRow");
+    $mainDiv.attr("currentHour", hour);
+
+    let $timeDiv = $("<div>");
+    $timeDiv.addClass("col-md-2");
+
+    const $timeSpan = $("<span>");
+
+    $timeSpan.attr("class", "timeBox");
+
+    let dispHour = 0;
+    let clock = "";
+    if (hour > 12) {
+      dispHour = hour - 12;
+      clock = "pm";
+    } else {
+      dispHour = hour;
+      clock = "am";
+    }
+    // Create all Divs and attributes
+
+    $timeSpan.text(`${dispHour} ${clock}`);
+
+    $mainDiv.append($timeDiv);
+    $timeDiv.append($timeSpan);
+
+    let $plannerSpan = $("<input>");
+
+    $plannerSpan.attr("id", `input-${index}`);
+    $plannerSpan.attr("currentHour", index);
+    $plannerSpan.attr("type", "text");
+    $plannerSpan.attr("class", "hour");
+
+    $plannerSpan.val(textArray[index]);
+
+    let middleDiv = $("<div>");
+    middleDiv.addClass("col-md-9");
+
+    $mainDiv.append(middleDiv);
+    middleDiv.append($plannerSpan);
+
+    let $saveBtnDiv = $("<div>");
+    $saveBtnDiv.addClass("col-md-1");
+
+    let $saveBtn = $("<i>");
+    $saveBtn.attr("id", `saveid-${index}`);
+    $saveBtn.attr("save-id", index);
+    $saveBtn.attr("class", "fa fa-save saveBtn");
+
+    $mainDiv.append($saveBtnDiv);
+    $saveBtnDiv.append($saveBtn);
+
+    rowColoring($mainDiv, hour);
+
+    $plannerDiv.append($mainDiv);
+  }
+
+  // Function to update color with time
+  function rowColoring($plannerRow, hour) {
+    if (hour < hourDisplay) {
+      //
+      $plannerRow.css("background-color", "#d3d3d3");
+    } else if (hour > hourDisplay) {
+      $plannerRow.css("background-color", "#ff6961");
+    } else {
+      $plannerRow.css("background-color", "#77dd77");
+    }
+  }
+
+  // Save to local storage
+
+  $(document).on("click", "i", function(event) {
+    event.preventDefault();
+
+    let $index = $(this).attr("save-id");
+
+    let input = "#input-" + $index;
+    let $value = $(input).val();
+
+    textArray[$index] = $value;
+
+    localStorage.setItem("storedPlans", JSON.stringify(textArray));
+  });
+
+  // function to color save button on change of input
+  $(document).on("change", "input", function(event) {
+    event.preventDefault();
+    let i = $(this).attr("currentHour");
+  });
+});
