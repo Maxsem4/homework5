@@ -19,6 +19,8 @@ Here are the steps to install the repository
 
 ## Usage
 
+https://maxsem4.github.io/homework5/
+
 ![Image description](./assets/SS1.png)
 
 ### Thank You for browsing my Day Scheduler
