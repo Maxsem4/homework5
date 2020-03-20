@@ -11,7 +11,14 @@ $(document).ready(function() {
 
   // Store plans for the day
 
-  let storedPlans = JSON.parse(localStorage.getItem("storedPlans"));
+  let storedPlans = localStorage.getItem("storedPlans");
+  if (storedPlans === "") {
+    let emptyArray = ["", "", "", "", "", "", "", "", ""];
+    localStorage.setItem("storedPlans", emptyArray);
+    storedPlans = emptyArray;
+  } else {
+    storedPlans = JSON.parse(storedPlans);
+  }
 
   let $plannerDiv = $("#plannerContainer");
   $plannerDiv.empty();
