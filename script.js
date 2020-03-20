@@ -12,9 +12,9 @@ $(document).ready(function() {
   // Store plans for the day
 
   let storedPlans = localStorage.getItem("storedPlans");
-  if (storedPlans === "") {
+  if (storedPlans === null) {
     let emptyArray = ["", "", "", "", "", "", "", "", ""];
-    localStorage.setItem("storedPlans", emptyArray);
+    localStorage.setItem("storedPlans", JSON.stringify(emptyArray));
     storedPlans = emptyArray;
   } else {
     storedPlans = JSON.parse(storedPlans);
