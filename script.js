@@ -13,10 +13,6 @@ $(document).ready(function() {
 
   let storedPlans = JSON.parse(localStorage.getItem("storedPlans"));
 
-  if (storedPlans !== null) {
-    textArray = storedPlans;
-  }
-
   let $plannerDiv = $("#plannerContainer");
   $plannerDiv.empty();
 
@@ -60,7 +56,7 @@ $(document).ready(function() {
     $plannerSpan.attr("type", "text");
     $plannerSpan.attr("class", "hour");
 
-    $plannerSpan.val(textArray[index]);
+    $plannerSpan.val(storedPlans[index]);
 
     let middleDiv = $("<div>");
     middleDiv.addClass("col-md-9");
@@ -106,9 +102,9 @@ $(document).ready(function() {
     let input = "#input-" + $index;
     let $value = $(input).val();
 
-    textArray[$index] = $value;
+    storedPlans[$index] = $value;
 
-    localStorage.setItem("storedPlans", JSON.stringify(textArray));
+    localStorage.setItem("storedPlans", JSON.stringify(storedPlans));
   });
 
   // function to color save button on change of input
